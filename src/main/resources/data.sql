@@ -1,0 +1,2 @@
+insert into "musician" ("firstName","lastName","emailAddress","age","instrument","style") values ("james.connolly@email.com","James","Connolly","45","Drums","Metal");
+insert into "musician" ("firstName","lastName","emailAddress","age","instrument","style") values ("frerik.thordenal@meshuggah.com","Fredrik","Thordenal","53","Drums","Metal");
