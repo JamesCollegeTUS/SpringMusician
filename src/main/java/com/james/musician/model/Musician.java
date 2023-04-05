@@ -16,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -36,23 +39,35 @@ public class Musician implements Serializable {
 	@Column(name="email_address")
 	private String emailAddress;
 	
+	@Min(value = 18, message = "Musician must be 18 years of age or older!!")
+	@Max(value = 65, message = "Musician should not be older than 65!!")
 	private int age;
 	
 	@Enumerated(EnumType.STRING)
 	private MusicStyle style;
 	
-	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.ALL})
-	@JoinTable(name = "mus_insts" , 
-	joinColumns = @JoinColumn(name = "musician_id"),
-	inverseJoinColumns = @JoinColumn(name = "instrument_id"))
-	private List<Instrument> instruments;
+	@NotNull(message = "Musician should play at least one instrument!!")
+	@Column(name = "instrument_a")
+	@Enumerated(EnumType.STRING)
+	private Instruments instrumentA;
+	
+	@Column(name = "instrument_b")
+	@Enumerated(EnumType.STRING)
+	private Instruments instrumentB;
 	
 	
-	public Musician(String firstName, String lastName, String emailAddress, int age) {
+	public Musician() {
+		
+	}
+	public Musician(String firstName, String lastName, String emailAddress, int age, MusicStyle style, 
+			Instruments instrumentA, Instruments instrumentB) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.age = age;
+		this.style = style;
+		this.instrumentA = instrumentA;
+		this.instrumentA = instrumentB;
 	
 	}
 	
@@ -87,11 +102,23 @@ public class Musician implements Serializable {
 		this.age = age;
 	}
 
+	public MusicStyle getStyle() {
+		return style;
+	}
 
-	
-	
-
-
-	
-	
+	public void setStyle(MusicStyle style) {
+		this.style = style;
+	}
+	public Instruments getInstrumentA() {
+		return instrumentA;
+	}
+	public void setInstrumentA(Instruments instrumentA) {
+		this.instrumentA = instrumentA;
+	}
+	public Instruments getInstrumentB() {
+		return instrumentB;
+	}
+	public void setInstrumentB(Instruments instrumentB) {
+		this.instrumentB = instrumentB;
+	}
 }

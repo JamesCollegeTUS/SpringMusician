@@ -6,9 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.james.musician.errors.ErrorMessage;
+import com.james.musician.exceptions.MusicianException;
 import com.james.musician.model.Musician;
 import com.james.musician.service.MusicianService;
 
@@ -28,4 +34,31 @@ public class MusicianController {
 			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians);
 		}
 	}
+	
+	@GetMapping("/{id}")
+	public Musician getMusicianById(@PathVariable(value = "id") long id) {
+		Musician musician;
+		
+		try {
+			musician = musicianService.getMusicianById(id);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musician not found");
+		}
+		
+		return musician;
+	}
+//	
+
+	@PostMapping      
+	public ResponseEntity addMusician(@RequestBody Musician musician) {
+		try {
+			Musician savedMusician = musicianService.createMusician(musician);
+			return ResponseEntity.status(HttpStatus.CREATED).body(savedMusician);
+			
+		} catch (MusicianException e) {
+			ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
+			return ResponseEntity.badRequest().body(errorMessage);
+		}
+	}
+	
 }
