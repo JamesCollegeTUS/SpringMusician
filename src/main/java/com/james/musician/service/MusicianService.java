@@ -15,6 +15,7 @@ import com.james.musician.model.Musician;
 @Service
 public class MusicianService {
 	Musician musician;
+	
 	@Autowired
 	MusicianRepository musicianRepo;
 	
@@ -31,7 +32,7 @@ public class MusicianService {
 	}
 
 	public Musician createMusician(Musician musician) throws MusicianValidationException{
-		// TODO Auto-generated method stub
+		this.musician = musician;
 		return null;
 	}
 	
