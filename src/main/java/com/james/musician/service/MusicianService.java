@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.james.musician.dao.MusicianRepository;
+import com.james.musician.errors.ErrorMessages;
 import com.james.musician.errors.ErrorValidation;
 import com.james.musician.exceptions.MusicianValidationException;
+import com.james.musician.model.MusicStyle;
 import com.james.musician.model.Musician;
 
 
@@ -33,7 +35,23 @@ public class MusicianService {
 
 	public Musician createMusician(Musician musician) throws MusicianValidationException{
 		this.musician = musician;
-		return null;
+		
+		if(musician.getStyle().equals(MusicStyle.FOLK)) {
+			if(!errorValidation.checkValidFolkMusician(musician)) {
+				throw new MusicianValidationException(ErrorMessages.INVALID_FOLK_MUSICIAN.getMsg());
+			}
+		}
+		if(errorValidation.checkDuplicateInstrument(musician)) {
+			throw new MusicianValidationException(ErrorMessages.DUPLICATE_INSTRUMENTS.getMsg()
+					+ " (" + musician.getInstrumentA() + ")");
+		}
+		if(!errorValidation.checkInstrumentComboAllowed(musician)) {
+			throw new MusicianValidationException(ErrorMessages.INVALID_INSTRUMENT_COMBO.getMsg()
+				+ " (" + musician.getInstrumentA() + ", " + musician.getInstrumentB() + ")"	);
+		}
+		return musicianRepo.save(musician);
 	}
+	
+
 	
 }

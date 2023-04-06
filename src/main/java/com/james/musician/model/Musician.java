@@ -43,10 +43,11 @@ public class Musician implements Serializable {
 	@Max(value = 65, message = "Musician should not be older than 65!!")
 	private int age;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private MusicStyle style;
 	
-	@NotNull(message = "Musician should play at least one instrument!!")
+	@NotNull(message = "Musician must play at least one instrument!!")
 	@Column(name = "instrument_a")
 	@Enumerated(EnumType.STRING)
 	private Instruments instrumentA;
@@ -56,20 +57,22 @@ public class Musician implements Serializable {
 	private Instruments instrumentB;
 	
 	
-	public Musician() {
-		
-	}
-	public Musician(String firstName, String lastName, String emailAddress, int age, MusicStyle style, 
-			Instruments instrumentA, Instruments instrumentB) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailAddress = emailAddress;
-		this.age = age;
-		this.style = style;
-		this.instrumentA = instrumentA;
-		this.instrumentA = instrumentB;
-	
-	}
+//	public Musician() {
+//		
+//	}
+//	public Musician(String firstName, String lastName, String emailAddress, int age, MusicStyle style, 
+//			Instruments instrumentA, Instruments instrumentB) {
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+//		this.emailAddress = emailAddress;
+//		this.age = age;
+//		this.style = style;
+//		this.instrumentA = instrumentA;
+//		this.instrumentA = instrumentB;
+//	
+//	}
+//	
+
 	
 	public long getId() {
 		return id;
