@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.james.musician.dao.MusicianRepository;
 import com.james.musician.errors.ErrorMessages;
 import com.james.musician.errors.ErrorValidation;
+import com.james.musician.exceptions.MusicianNotFoundException;
 import com.james.musician.exceptions.MusicianValidationException;
 import com.james.musician.model.MusicStyle;
 import com.james.musician.model.Musician;
+
+import java.util.Optional;
 
 
 @Service
@@ -52,6 +55,23 @@ public class MusicianService {
 		return musicianRepo.save(musician);
 	}
 	
+	public void deleteMusician(Long id) throws MusicianNotFoundException{
+		try {
+			Musician musician = musicianRepo.findById(id).get();
+			musicianRepo.delete(musician);
+		}catch(Exception e){
+			throw new MusicianNotFoundException("Musician not found");
+		}
+	}
+	
+	public boolean checkMusicianAlreadyExists(Long id) {
+		Optional<Musician> mus = musicianRepo.findById(id);
+		if(mus.isPresent()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	
 }
