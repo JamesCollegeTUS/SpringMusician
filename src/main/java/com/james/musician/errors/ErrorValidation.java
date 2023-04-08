@@ -27,14 +27,14 @@ public class ErrorValidation {
 		if(instrumentB == null) {
 			return true;
 		}
-		if(instrumentA.equals(Instruments.VOCALS) && (instrumentB.equals(Instruments.GUITAR)
-				|| instrumentB.equals(Instruments.DRUMS) || instrumentB.equals(Instruments.BASS)
-				|| instrumentB.equals(null))) {
+		else if(instrumentA.equals(Instruments.VOCALS) && (instrumentB.equals(Instruments.GUITAR)
+				|| instrumentB.equals(Instruments.DRUMS) || instrumentB.equals(Instruments.BASS))){
 			return true;
 		} else if((instrumentA.equals(Instruments.GUITAR) || instrumentA.equals(Instruments.DRUMS) || instrumentA.equals(Instruments.BASS))
-				&& (instrumentB.equals(Instruments.VOCALS) || instrumentB.equals(null))) {
+				&& (instrumentB.equals(Instruments.VOCALS))) {
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
 	}
@@ -56,12 +56,14 @@ public class ErrorValidation {
 	
 	public boolean checkValidFolkMusician(Musician musician) {
 		this.musician = musician;
-		
+		System.out.println("in checkValidFolkMusician()");
+		System.out.println("instrumentA: " + musician.getInstrumentA() + " , " + "instrumentB: " + musician.getInstrumentB());
 		if(musician.getInstrumentB() == null) {
 			return false;
 		}
-		if((musician.getInstrumentA().equals(Instruments.VOCALS) && 
-				musician.getInstrumentB().equals(Instruments.GUITAR)) || (musician.getInstrumentA().equals(Instruments.GUITAR)
+		if((musician.getInstrumentA().equals(Instruments.VOCALS) 
+				&& musician.getInstrumentB().equals(Instruments.GUITAR)) 
+				|| (musician.getInstrumentA().equals(Instruments.GUITAR)
 				&& musician.getInstrumentB().equals(Instruments.VOCALS))){
 				return true;
 		}
