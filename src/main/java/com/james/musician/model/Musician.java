@@ -23,12 +23,12 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "musicians")
-public class Musician implements Serializable {
+public class Musician{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private long id;
+	private Long id;
 	
 	@Column(name="first_name")
 	private String firstName;
@@ -74,10 +74,10 @@ public class Musician implements Serializable {
 //	
 
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getFirstName() {
@@ -123,5 +123,23 @@ public class Musician implements Serializable {
 	}
 	public void setInstrumentB(Instruments instrumentB) {
 		this.instrumentB = instrumentB;
+	}
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) {
+			return true;
+		}
+		
+		if((obj == null) || (obj.getClass() != this.getClass())){
+			return false;
+		}
+		
+		String objName = ((Musician) obj).getEmailAddress();
+		return this.emailAddress.equals(objName);
 	}
 }

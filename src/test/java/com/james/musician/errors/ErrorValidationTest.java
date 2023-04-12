@@ -8,16 +8,19 @@ import org.junit.jupiter.api.Test;
 import com.james.musician.model.Instruments;
 import com.james.musician.model.MusicStyle;
 import com.james.musician.model.Musician;
+import com.james.musician.musicianBuilder.MusicianBuilder;
 
 class ErrorValidationTest {
 	
 	ErrorValidation errorValidation;
 	Musician musician;
+	MusicianBuilder musicianBuilder;
 	
 	@BeforeEach
 	void setUp() {
 		errorValidation = new ErrorValidation();
-		musician = buildMusician();
+		musicianBuilder = new MusicianBuilder();
+		musician = musicianBuilder.buildMusician();
 	}
 
 
@@ -104,7 +107,7 @@ class ErrorValidationTest {
 	}
 	
 	@Test 
-	void testValidFolkMusicianTrue() {
+	void testValidFolkMusicianTrue() { 
 		System.out.println("in testValidFolkMusicianTrue()");
 		musician.setInstrumentA(Instruments.VOCALS);
 		musician.setInstrumentB(Instruments.GUITAR);
@@ -123,16 +126,5 @@ class ErrorValidationTest {
 		System.out.println("in testValidFolkMusicianFalse()");
 		assertFalse(errorValidation.checkValidFolkMusician(musician));
 	}
-	Musician buildMusician() {
-		Musician musician = new Musician();
-		musician.setAge(45);
-		musician.setEmailAddress("james.james@james.com");
-		musician.setFirstName("James");
-		musician.setLastName("Connolly");
-		musician.setStyle(MusicStyle.METAL);
-		musician.setInstrumentA(Instruments.DRUMS);
-		musician.setInstrumentB(Instruments.VOCALS);
-		
-		return musician;
-	}
+
 }

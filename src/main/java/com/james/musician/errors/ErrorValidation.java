@@ -52,7 +52,7 @@ public class ErrorValidation {
 		return false;
 	}
 	
-	// a FOLK musician must sing AND play guitar only 
+	// a FOLK musician must sing AND play guitar only  
 	
 	public boolean checkValidFolkMusician(Musician musician) {
 		this.musician = musician;
@@ -60,12 +60,12 @@ public class ErrorValidation {
 		System.out.println("instrumentA: " + musician.getInstrumentA() + " , " + "instrumentB: " + musician.getInstrumentB());
 		if(musician.getInstrumentB() == null) {
 			return false;
-		}
-		if((musician.getInstrumentA().equals(Instruments.VOCALS) 
-				&& musician.getInstrumentB().equals(Instruments.GUITAR)) 
-				|| (musician.getInstrumentA().equals(Instruments.GUITAR)
-				&& musician.getInstrumentB().equals(Instruments.VOCALS))){
-				return true;
+		}else if(musician.getInstrumentA().equals(Instruments.VOCALS) 
+				&& musician.getInstrumentB().equals(Instruments.GUITAR)){
+			return true;
+		}else if(musician.getInstrumentA().equals(Instruments.GUITAR)
+				&& musician.getInstrumentB().equals(Instruments.VOCALS)){
+			return true;
 		}
 		return false;
 		}

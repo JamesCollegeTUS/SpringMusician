@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.james.musician.dao.MusicianRepository;
 import com.james.musician.errors.ErrorMessage;
 import com.james.musician.exceptions.MusicianException;
+import com.james.musician.exceptions.MusicianNotFoundException;
+import com.james.musician.exceptions.MusicianValidationException;
 import com.james.musician.message.AddResponse;
 import com.james.musician.model.Musician;
 import com.james.musician.service.MusicianService;
@@ -33,13 +35,15 @@ public class MusicianController {
 	@Autowired
 	MusicianRepository musicianRepo;
 	
+	Musician musician;
+	
 	@GetMapping
 	public ResponseEntity getAllMusicians() {
 		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianService.getAllMusicians();
 		if (musicians.size() == 0) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(musicians);
 		} else {
-			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians);
+			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians); 
 		}
 	}
 	
@@ -55,27 +59,37 @@ public class MusicianController {
 		
 		return musician;
 	}
-//	
-
-	@PostMapping      
-	public ResponseEntity addMusician(@RequestBody Musician musician) {
+	
+	
+	@PostMapping
+	public ResponseEntity addMusician(@RequestBody Musician musician) throws MusicianValidationException{
+		this.musician = musician;
+		AddResponse ad = new AddResponse();
+		HttpHeaders headers = new HttpHeaders();
+		
 		try {
-			Musician savedMusician = musicianService.createMusician(musician);
-			return ResponseEntity.status(HttpStatus.CREATED).body(savedMusician);
-			
-		} catch (MusicianException e) {
+			if(musicianService.isValidMusician(musician)) {
+				musicianRepo.save(musician);
+				//HttpHeaders headers = new HttpHeaders();
+				headers.add("unique", musician.getId().toString());
+				ad.setMsg("Musician Added Successfully"); 
+				ad.setId(musician.getId().toString());
+				
+			}
+		} catch(MusicianException e) {
 			ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
 			return ResponseEntity.badRequest().body(errorMessage);
 		}
+		return new ResponseEntity<AddResponse>(ad, headers, HttpStatus.CREATED);
+		
 	}
-	
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteMusician(@PathVariable("id") Long id) {
+	public ResponseEntity deleteMusician(@PathVariable("id") Long id) throws MusicianNotFoundException{
 		try {
 			musicianService.deleteMusician(id);
-			return ResponseEntity.status(HttpStatus.OK).body(null);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			return new ResponseEntity("Musician is deleted", HttpStatus.OK);
+		} catch (MusicianNotFoundException e) { 
+			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
