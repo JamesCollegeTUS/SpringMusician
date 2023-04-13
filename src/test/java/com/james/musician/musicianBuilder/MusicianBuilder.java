@@ -22,6 +22,19 @@ public class MusicianBuilder {
 		return musician;
 	}
 	
+	public Musician buildMusicianWithId() {
+		Musician musician = new Musician();
+		musician.setId(1L);
+		musician.setAge(45);
+		musician.setEmailAddress("james.james@james.com");
+		musician.setFirstName("James");
+		musician.setLastName("Connolly");
+		musician.setStyle(MusicStyle.METAL);
+		musician.setInstrumentA(Instruments.DRUMS);
+		musician.setInstrumentB(Instruments.VOCALS);
+		
+		return musician;
+	}
 	public Musician updateMusician() {
 		Musician musician = new Musician();
 		musician.setAge(54);

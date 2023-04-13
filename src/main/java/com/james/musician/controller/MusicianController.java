@@ -18,8 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.james.musician.dao.MusicianRepository;
 import com.james.musician.errors.ErrorMessage;
+import com.james.musician.errors.ErrorMessages;
 import com.james.musician.exceptions.MusicianException;
-import com.james.musician.exceptions.MusicianNotFoundException;
 import com.james.musician.exceptions.MusicianValidationException;
 import com.james.musician.message.AddResponse;
 import com.james.musician.model.Musician;
@@ -39,7 +39,8 @@ public class MusicianController {
 	
 	@GetMapping
 	public ResponseEntity getAllMusicians() {
-		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianService.getAllMusicians();
+		//ArrayList<Musician> musicians = (ArrayList<Musician>) musicianService.getAllMusicians();
+		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianRepo.findAll();
 		if (musicians.size() == 0) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(musicians);
 		} else {
@@ -52,7 +53,8 @@ public class MusicianController {
 		Musician musician;
 		
 		try {
-			musician = musicianService.getMusicianById(id);
+			//musician = musicianService.getMusicianById(id);
+			musician = musicianRepo.findById(id).get(); 
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musician not found");
 		}
@@ -84,12 +86,19 @@ public class MusicianController {
 		
 	}
 	@DeleteMapping("/{id}")
-	public ResponseEntity deleteMusician(@PathVariable("id") Long id) throws MusicianNotFoundException{
+	public ResponseEntity deleteMusician(@PathVariable("id") Long id) throws MusicianException{
 		try {
-			musicianService.deleteMusician(id);
-			return new ResponseEntity("Musician is deleted", HttpStatus.OK);
-		} catch (MusicianNotFoundException e) { 
-			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+			//musicianService.deleteMusician(id);
+			AddResponse ad = new AddResponse();
+			HttpHeaders headers = new HttpHeaders();
+			Musician musician = musicianRepo.findById(id).get();
+			ad.setId(id.toString());
+			musicianRepo.delete(musician);
+			ad.setMsg("Musician Deleted");
+			headers.add("unique", musician.getId().toString());
+			return new ResponseEntity(ad, headers, HttpStatus.OK);
+		} catch(Exception e){
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessages.MUSICIAN_NOT_FOUND.getMsg());
 		}
 	}
 	

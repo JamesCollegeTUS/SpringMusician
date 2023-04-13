@@ -56,8 +56,6 @@ public class ErrorValidation {
 	
 	public boolean checkValidFolkMusician(Musician musician) {
 		this.musician = musician;
-		System.out.println("in checkValidFolkMusician()");
-		System.out.println("instrumentA: " + musician.getInstrumentA() + " , " + "instrumentB: " + musician.getInstrumentB());
 		if(musician.getInstrumentB() == null) {
 			return false;
 		}else if(musician.getInstrumentA().equals(Instruments.VOCALS) 

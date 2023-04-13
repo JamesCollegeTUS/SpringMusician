@@ -56,22 +56,6 @@ public class Musician{
 	@Enumerated(EnumType.STRING)
 	private Instruments instrumentB;
 	
-	
-//	public Musician() {
-//		
-//	}
-//	public Musician(String firstName, String lastName, String emailAddress, int age, MusicStyle style, 
-//			Instruments instrumentA, Instruments instrumentB) {
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.emailAddress = emailAddress;
-//		this.age = age;
-//		this.style = style;
-//		this.instrumentA = instrumentA;
-//		this.instrumentA = instrumentB;
-//	
-//	}
-//	
 
 	
 	public Long getId() {
@@ -124,11 +108,10 @@ public class Musician{
 	public void setInstrumentB(Instruments instrumentB) {
 		this.instrumentB = instrumentB;
 	}
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
+//	@Override
+////	public int hashCode() {
+////		return this.emailAddress.hashCode() + 45;
+////	}
 	@Override
 	public boolean equals(Object obj) {
 		if(this == obj) {

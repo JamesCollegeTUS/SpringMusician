@@ -101,14 +101,12 @@ class ErrorValidationTest {
 	
 	@Test
 	void testValidFolkMusicianNullInstrumentB() {
-		System.out.println("in testValidFolkMusicianNullInstrumentB()");
 		musician.setInstrumentB(null);
 		assertFalse(errorValidation.checkValidFolkMusician(musician));
 	}
 	
 	@Test 
 	void testValidFolkMusicianTrue() { 
-		System.out.println("in testValidFolkMusicianTrue()");
 		musician.setInstrumentA(Instruments.VOCALS);
 		musician.setInstrumentB(Instruments.GUITAR);
 		assertTrue(errorValidation.checkValidFolkMusician(musician));
@@ -123,7 +121,6 @@ class ErrorValidationTest {
 	@Test
 	void testValidFolkMusicianFalse() {
 		// test with default musician object
-		System.out.println("in testValidFolkMusicianFalse()");
 		assertFalse(errorValidation.checkValidFolkMusician(musician));
 	}
 
