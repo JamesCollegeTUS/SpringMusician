@@ -37,9 +37,10 @@ public class MusicianBuilder {
 	}
 	public Musician updateMusician() {
 		Musician musician = new Musician();
+		musician.setId(1L);
 		musician.setAge(54);
 		musician.setEmailAddress("james.james@james.com");
-		musician.setFirstName("James");
+		musician.setFirstName("James Jazzer");
 		musician.setLastName("Connolly");
 		musician.setStyle(MusicStyle.ROCK);
 		musician.setInstrumentA(Instruments.VOCALS);

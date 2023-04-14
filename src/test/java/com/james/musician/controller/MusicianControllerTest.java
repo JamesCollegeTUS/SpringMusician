@@ -43,7 +43,7 @@ public class MusicianControllerTest {
 	@MockBean
 	MusicianRepository musicianRepo;
 	
-//	@Test
+	@Test
 	public void addMusicianSuccessTest() throws MusicianValidationException {
 		musicianBuilder = new MusicianBuilder();
 		Musician musician = musicianBuilder.buildMusician();
@@ -59,7 +59,7 @@ public class MusicianControllerTest {
 //		assertTrue(musicianAdded.equals(savedMusician));
 	}
 	
-//	@Test
+	@Test
 	public void addMusicianFailedTest() throws MusicianValidationException {
 		musicianBuilder = new MusicianBuilder();
 		Musician musician = musicianBuilder.buildMusician();
@@ -72,7 +72,7 @@ public class MusicianControllerTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void getAllMusiciansTestNotNullList() {
 		//create 3 musicians
 		musicianBuilder = new MusicianBuilder();
@@ -91,7 +91,7 @@ public class MusicianControllerTest {
 		ResponseEntity response = musicianController.getAllMusicians();
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
 	}
-//	@Test
+	@Test
 	public void getAllMusiciansTestNullList() {
 		ArrayList<Musician> musicians = new ArrayList<>();
 		//when(musicianService.getAllMusicians()).thenReturn(musicians);
@@ -111,7 +111,7 @@ public class MusicianControllerTest {
 		
 	}
 	
-//	@Test
+	@Test
 	public void getMusicianByIdNotFound() {
 		ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
 				() -> {musicianController.getMusicianById(null);});

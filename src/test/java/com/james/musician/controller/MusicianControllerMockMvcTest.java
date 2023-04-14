@@ -182,7 +182,7 @@ class MusicianControllerMockMvcTest {
 	
 	@Test
 	public void updateMusician() throws Exception{
-		Musician musician = musicianBuilder.buildMusicianWithId();
+		Musician musician = musicianBuilder.updateMusician();
 		ObjectMapper map = new ObjectMapper();
 		String jsonString = map.writeValueAsString(musician);
 		when(musicianService.checkMusicianAlreadyExists(musician.getId())).thenReturn(true);
@@ -198,11 +198,10 @@ class MusicianControllerMockMvcTest {
 	} 
 	@Test
 	public void updateMusicianNotFound() throws Exception{
-		Musician musician = musicianBuilder.buildMusicianWithId();
+		Musician musician = musicianBuilder.updateMusician();
 		ObjectMapper map = new ObjectMapper();
 		String jsonString = map.writeValueAsString(musician);
 		when(musicianService.checkMusicianAlreadyExists(musician.getId())).thenReturn(false);
-		//when(musicianRepo.save(musician)).thenReturn(musician);
 		this.mockMvc.perform(put("/api/musicians/" + musician.getId())
 		.contentType(MediaType.APPLICATION_JSON)
 		.accept(MediaType.APPLICATION_JSON)
