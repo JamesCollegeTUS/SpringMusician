@@ -53,10 +53,6 @@ public class MusicianControllerTest {
 		when(musicianRepo.save(any())).thenReturn(savedMusician);
 		ResponseEntity response = musicianController.addMusician(savedMusician);
 		assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-//		Musician musicianAdded = (Musician) response.getBody();
-//		musicianAdded.getId();
-//		assertEquals(1L,musicianAdded.getId());
-//		assertTrue(musicianAdded.equals(savedMusician));
 	}
 	
 	@Test
@@ -86,7 +82,6 @@ public class MusicianControllerTest {
 		musicians.add(musician2);
 		musicians.add(musician3);
 		// mock musician service returning a list of musicians
-		//when(musicianService.getAllMusicians()).thenReturn(musicians);
 		when(musicianRepo.findAll()).thenReturn(musicians);
 		ResponseEntity response = musicianController.getAllMusicians();
 		assertEquals(response.getStatusCode(), HttpStatus.OK);
@@ -94,7 +89,6 @@ public class MusicianControllerTest {
 	@Test
 	public void getAllMusiciansTestNullList() {
 		ArrayList<Musician> musicians = new ArrayList<>();
-		//when(musicianService.getAllMusicians()).thenReturn(musicians);
 		when(musicianRepo.findAll()).thenReturn(musicians);
 		ResponseEntity response = musicianController.getAllMusicians();
 		assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
@@ -115,8 +109,6 @@ public class MusicianControllerTest {
 	public void getMusicianByIdNotFound() {
 		ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
 				() -> {musicianController.getMusicianById(null);});
-	
-		//System.out.println("message from exception: " + exception.getMessage());
 		assertTrue(exception.getMessage().contains("Musician not found"));
 	}
 	

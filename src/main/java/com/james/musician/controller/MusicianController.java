@@ -39,9 +39,8 @@ public class MusicianController {
 	
 	@GetMapping
 	public ResponseEntity getAllMusicians() {
-		//ArrayList<Musician> musicians = (ArrayList<Musician>) musicianService.getAllMusicians();
 		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianRepo.findAll();
-		if (musicians.size() == 0) {
+		if (musicians.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(musicians);
 		} else {
 			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians); 
@@ -53,7 +52,6 @@ public class MusicianController {
 		Musician musician;
 		
 		try {
-			//musician = musicianService.getMusicianById(id);
 			musician = musicianRepo.findById(id).get(); 
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Musician not found");
@@ -72,12 +70,10 @@ public class MusicianController {
 		try {
 			if(musicianService.isValidMusician(musician)) {
 				musicianRepo.save(musician);
-				//HttpHeaders headers = new HttpHeaders();
 				headers.add("unique", musician.getId().toString());
 				ad.setMsg("Musician Added Successfully"); 
 				ad.setId(musician.getId().toString());
-				
-			}
+				}
 		} catch(MusicianException e) {
 			ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
 			return ResponseEntity.badRequest().body(errorMessage);
@@ -88,7 +84,6 @@ public class MusicianController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity deleteMusician(@PathVariable("id") Long id) throws MusicianException{
 		try {
-			//musicianService.deleteMusician(id);
 			AddResponse ad = new AddResponse();
 			HttpHeaders headers = new HttpHeaders();
 			Musician musician = musicianRepo.findById(id).get();

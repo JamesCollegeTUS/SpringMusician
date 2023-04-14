@@ -108,10 +108,10 @@ public class Musician{
 	public void setInstrumentB(Instruments instrumentB) {
 		this.instrumentB = instrumentB;
 	}
-//	@Override
-////	public int hashCode() {
-////		return this.emailAddress.hashCode() + 45;
-////	}
+	@Override
+	public int hashCode() {
+		return this.emailAddress.hashCode() + 45;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if(this == obj) {
