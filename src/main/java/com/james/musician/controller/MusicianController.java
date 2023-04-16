@@ -37,6 +37,11 @@ public class MusicianController {
 	
 	Musician musician;
 	
+	@RequestMapping("/")
+	public String index() {
+		return "This is text to test for updates!!!";
+	}
+	
 	@GetMapping
 	public ResponseEntity getAllMusicians() {
 		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianRepo.findAll();
