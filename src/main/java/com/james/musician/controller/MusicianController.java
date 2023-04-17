@@ -37,7 +37,7 @@ public class MusicianController {
 	
 	Musician musician;
 	
-	@RequestMapping("/")
+	@RequestMapping("/test")
 	public String index() {
 		return "This is text to test for updates!!!";
 	}
