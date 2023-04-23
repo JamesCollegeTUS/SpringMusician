@@ -1,7 +1,7 @@
 package com.james.musician.controller;
 
 import java.util.ArrayList;
-
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +25,7 @@ import com.james.musician.message.AddResponse;
 import com.james.musician.model.Musician;
 import com.james.musician.service.MusicianService;
 
+@Service
 @RestController
 @RequestMapping("/api/musicians")
 public class MusicianController {
