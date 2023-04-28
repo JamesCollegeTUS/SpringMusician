@@ -57,6 +57,14 @@ public class Musician{
 	private Instruments instrumentB;
 	
 
+	public Musician() {
+		
+	}
+	
+	public Musician(Long id, String firstName) {
+		this.id = id;
+		this.firstName = firstName;
+	}
 	
 	public Long getId() {
 		return id;

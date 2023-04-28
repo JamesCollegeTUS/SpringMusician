@@ -36,7 +36,7 @@ public class SpringMusicianIT {
 	
 	//@Value(value="${local.server.port}")
 	@LocalServerPort
-	private static int port = 8090;
+	private static int port = 8095;
 	
 	MusicianBuilder musicianBuilder;
 	

@@ -2,6 +2,9 @@ package com.james.musician.controller;
 
 import java.util.ArrayList;
 import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +24,15 @@ import com.james.musician.errors.ErrorMessage;
 import com.james.musician.errors.ErrorMessages;
 import com.james.musician.exceptions.MusicianException;
 import com.james.musician.exceptions.MusicianValidationException;
+import com.james.musician.hystrixtest.MusicianDAOHystrix;
 import com.james.musician.message.AddResponse;
 import com.james.musician.model.Musician;
 import com.james.musician.service.MusicianService;
+import com.james.musician.utils.SleepUtils;
+
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 @Service
 @RestController
@@ -36,10 +45,16 @@ public class MusicianController {
 	@Autowired
 	MusicianRepository musicianRepo;
 	
+	@Autowired
+	MusicianDAOHystrix musdaohyst;
+	
 	Musician musician;
+	
+	Logger log = LoggerFactory.getLogger(MusicianController.class);
 	
 	@RequestMapping("/test")
 	public String index() {
+		log.info("Test GET method called");
 		return "This is text to test for updates!!!";
 	}
 	
@@ -49,14 +64,21 @@ public class MusicianController {
 		if (musicians.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(musicians);
 		} else {
+			log.info("getAllMusicians() called");
 			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians); 
 		}
 	}
 	
+	// specific endpoint and dao to test Hystrix circuit breaker
+	@GetMapping("/hystrix/{id}/{delayMs}")
+	public Musician getMusicianByIdDelay(@PathVariable(value = "id") Long id, @PathVariable(value = "delayMs") int delayMs) {
+		return musdaohyst.getMusicianByIdDelay(id, delayMs);
+	}
+
+	
 	@GetMapping("/{id}")
 	public Musician getMusicianById(@PathVariable(value = "id") Long id) {
 		Musician musician;
-		
 		try {
 			musician = musicianRepo.findById(id).get(); 
 		} catch (Exception e) {
@@ -65,6 +87,8 @@ public class MusicianController {
 		
 		return musician;
 	}
+	
+
 	
 	
 	@PostMapping
