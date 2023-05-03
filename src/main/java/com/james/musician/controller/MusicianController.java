@@ -69,6 +69,17 @@ public class MusicianController {
 		}
 	}
 	
+//	@GetMapping("/secured")
+//	public ResponseEntity getAllMusiciansSecured() {
+//		ArrayList<Musician> musicians = (ArrayList<Musician>) musicianRepo.findAll();
+//		if (musicians.isEmpty()) {
+//			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(musicians);
+//		} else {
+//			log.info("getAllMusicians() called");
+//			return (ResponseEntity) ResponseEntity.status(HttpStatus.OK).body(musicians); 
+//		}
+//	}
+	
 	// specific endpoint and dao to test Hystrix circuit breaker
 	@GetMapping("/hystrix/{id}/{delayMs}")
 	public Musician getMusicianByIdDelay(@PathVariable(value = "id") Long id, @PathVariable(value = "delayMs") int delayMs) {
